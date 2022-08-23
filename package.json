@@ -1,5 +1,6 @@
 {
 	"dependencies": {
+		"console.table": "^0.10.0",
 		"inquirer": "^8.2.4",
 		"mysql2": "^2.3.3"
 	},
@@ -7,7 +8,6 @@
 	"description": "mod 12 challenge (SQL, Inquirer)",
 	"version": "1.0.0",
 	"main": "index.js",
-	"devDependencies": {},
 	"scripts": {
 		"test": "jest",
 		"start": "node index.js"

@@ -2,9 +2,6 @@ const { prompt } = require("inquirer");
 const db = require("./db");
 require("console.table");
 
-// Function call to initialize app
-init();
-
 //function to initialize app
 function init() {
 	mainMenu();
@@ -37,27 +34,30 @@ const mainMenu = () => {
 			case "View All Departments":
 				viewDepartments();
 				break;
-			case "Add Employee":
-				addEmp();
-				break;
-			case "Update Employee Role":
-				updateEmpRole();
-				break;
-
 			case "Add Role":
 				addRole();
 				break;
-			case "View All Departments":
-				viewDepartments();
-				break;
 			case "Add Department":
-				addDeparment();
+				addDepartment();
+				break;
+
+			case "Add Employee":
+				addEmployee();
+				break;
+			case "Update Employee Role":
+				updateEmployeeRole();
 				break;
 			default:
 				quit();
 		}
 	});
 };
+
+function quit() {
+	console.log("bye");
+	return;
+}
+
 //FIND ALL...
 //view employee table
 function viewEmployees() {
@@ -89,7 +89,7 @@ function viewDepartments() {
 		.then(() => mainMenu());
 }
 //ADD TO...
-//add role, salary, role department
+//add ROLE with salary and role department
 function addRole() {
 	db.findAllDepartments().then(([rows]) => {
 		let departments = rows;
@@ -119,73 +119,62 @@ function addRole() {
 		});
 	});
 }
+//add department
+function addDepartment() {
+	prompt([
+		{
+			name: "name",
+			message: "What is the name of the new department?",
+		},
+	]).then((department) => {
+		db.createDepartment(department)
+			.then(() => console.log(`Added ${department.title} to the database.`))
+			.then(() => mainMenu());
+	});
+}
 
-function addDepartment
-// 		//add department
-// 		{
-// 			type: "input",
-// 			name: "addDepartment",
-// 			message: "What is the name of the department? (Required)",
-// 			validate: (addDepartmentInput) => {
-// 				if (addDepartmentInput) {
-// 					console.log("Service added to the database");
-// 					return true;
-// 				} else {
-// 					console.log("Please enter your department name");
-// 					return false;
-// 				}
-// 			},
-// 		},
-// 		//add Employee,
-// 		{
-// 			type: "input",
-// 			name: "addFirstName",
-// 			message: "What is the Employee's FIRST name? (Required)",
-// 			validate: (addFirstName) => {
-// 				if (addFirstName) {
-// 					return true;
-// 				} else {
-// 					console.log("Please enter the Employee's FIRST name");
-// 					return false;
-// 				}
-// 			},
-// 		},
-// 		{
-// 			type: "input",
-// 			name: "addLastName",
-// 			message: "What is the Employee's LAST name? (Required)",
-// 			validate: (addLastName) => {
-// 				if (addLastName) {
-// 					return true;
-// 				} else {
-// 					console.log("Please enter the Employee's LAST name");
-// 					return false;
-// 				}
-// 			},
-// 		},
-// 		{
-// 			type: "list",
-// 			name: "newEmployeeRole",
-// 			message: "What is the Employee's role?",
-// 			choices: [
-// 				//needs to be a fluid array from table
-// 				"Sales Lead",
-// 				"Lead Engineer",
-// 				"etc",
-// 			],
-// 		},
-// 		{
-// 			type: "list",
-// 			name: "newEmployeeMgr",
-// 			message: "Who is the Employee's manager?",
-// 			choices: [
-// 				"None",
-// 				//needs to be a fluid array from table
-// 				"John Doe",
-// 				"etc",
-// 			],
-// 		},
-// 		//needs a console log "Added ${employee name} to the database"
+function addEmployee() {
+	db.findAllEmployees().then(([rows]) => {
+		let role = rows;
+		const roleChoices = role.map(({ id, title }) => ({
+			name: title,
+			value: id,
+		}));
+		prompt([
+			{
+				name: "first_name",
+				message: "What is the Employee's first name?",
+			},
+			{
+				name: "last_name",
+				message: "What is the Employee's last name?",
+			},
+			{
+				type: "list",
+				name: "role_id",
+				message: "What is the Employee's job title?",
+				choices: roleChoices,
+			},
+			// {
+			//     type: "list",
+			//     message: "Who is the Employee's Manager?"
+			// }
+		]).then((employee) => {
+			db.createEmployee(employee)
+				.then(() =>
+					console.log(
+						`Added ${
+							(employee.first_name, " ", employee.second.name)
+						}  to the database.`
+					)
+				)
+				.then(() => mainMenu());
+		});
+	});
+}
+
+// Function call to initialize app
+init();
 
 // 		//Update Employee Role
 // 		{

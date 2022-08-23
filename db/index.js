@@ -37,6 +37,7 @@ class DB {
 	createDepartment(department) {
 		return this.connection.promise().query("INSERT INTO department SET ?", department);
 	}
+
     // METHODS TO UPDATE...
 	updateEmployeeRole(employeeId, roleId) {
 		return this.connection
