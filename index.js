@@ -55,7 +55,7 @@ const mainMenu = () => {
 
 function quit() {
 	console.log("bye");
-	return;
+	process.exit();
 }
 
 //FIND ALL...
@@ -155,6 +155,7 @@ function addEmployee() {
 				message: "What is the Employee's job title?",
 				choices: roleChoices,
 			},
+			//HELP HOW TO GET LIST OF MANAGERS?
 			// {
 			//     type: "list",
 			//     message: "Who is the Employee's Manager?"
