@@ -17,7 +17,7 @@ class DB {
 		return this.connection
 			.promise()
 			.query(
-				"SELECT role.id, role.title AS Roles, department_id AS Department, salary AS Salary FROM role LEFT JOIN department ON department_id = department.id ORDER BY id;",
+				"SELECT role.id, role.title AS Roles, department_id AS Department, salary AS Salary FROM role LEFT JOIN department ON role.department_id = department.id ORDER BY ID;",
 				role
 			);
 		//HELP! I tried department.id and department.name neither work
@@ -44,6 +44,7 @@ class DB {
 			.promise()
 			.query("INSERT INTO department SET ?", department);
 	}
+    
 
 	// METHODS TO UPDATE...
 	updateEmployeeRole(employeeId, roleId) {
