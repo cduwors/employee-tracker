@@ -13,14 +13,12 @@ class DB {
 				employee
 			);
 	}
-	findAllRoles(role) {
+	findAllRoles() {
 		return this.connection
 			.promise()
 			.query(
-				"SELECT role.id, role.title AS Roles, department_id AS Department, salary AS Salary FROM role LEFT JOIN department ON role.department_id = department.id ORDER BY ID;",
-				role
+				"SELECT role.id, role.title AS Roles, department.name AS Department, salary AS Salary FROM role LEFT JOIN department ON role.department_id = department.id ORDER BY ID;"
 			);
-		//HELP! I tried department.id and department.name neither work
 	}
 	findAllDepartments(department) {
 		return this.connection
@@ -44,7 +42,6 @@ class DB {
 			.promise()
 			.query("INSERT INTO department SET ?", department);
 	}
-    
 
 	// METHODS TO UPDATE...
 	updateEmployeeRole(employeeId, roleId) {
